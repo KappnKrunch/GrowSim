@@ -1,0 +1,114 @@
+Base path: C:/Program Files/Unity/Editor/Data
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=421 outsize=420 ok=1
+Cmd: preprocessCompute
+  insize=443 outsize=442 ok=1
+Cmd: compileComputeKernel
+  error: 2 plat 4 at colonyShader.compute(7): syntax error: unexpected token 'RWTexture2D'
+  api=4 insize=442 outsize=0 ok=0
+Cmd: preprocessCompute
+  insize=423 outsize=422 ok=1
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=386 outsize=385 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=388 outsize=387 ok=1
+Cmd: preprocessCompute
+  insize=390 outsize=389 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=395 outsize=394 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=400 outsize=399 ok=1
+Cmd: preprocessCompute
+  insize=402 outsize=401 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=401 outsize=400 ok=1
+Cmd: preprocessCompute
+  insize=400 outsize=399 ok=1
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=401 outsize=400 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=408 outsize=407 ok=1
+Cmd: preprocessCompute
+  insize=409 outsize=408 ok=1
+Cmd: preprocessCompute
+  insize=416 outsize=415 ok=1
+Cmd: preprocessCompute
+  insize=409 outsize=408 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=408 outsize=381 ok=1
+Cmd: preprocessCompute
+  insize=429 outsize=428 ok=1
+Cmd: preprocessCompute
+  insize=404 outsize=403 ok=1
+Cmd: preprocessCompute
+  insize=432 outsize=431 ok=1
+Cmd: preprocessCompute
+  insize=432 outsize=431 ok=1
+Cmd: preprocessCompute
+  insize=428 outsize=427 ok=1
+Cmd: preprocessCompute
+  insize=433 outsize=432 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=432 outsize=421 ok=1
+Cmd: preprocessCompute
+  insize=427 outsize=426 ok=1
+Cmd: compileComputeKernel
+  error: 2 plat 4 at colonyShader.compute(14): invalid type for index - index must be a scalar, or a vector with the correct number of dimensions
+  api=4 insize=426 outsize=0 ok=0
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=403 outsize=402 ok=1
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=403 outsize=402 ok=1
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=403 outsize=402 ok=1
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=402 outsize=401 ok=1
+Cmd: preprocessCompute
+  insize=494 outsize=493 ok=1
+Cmd: preprocessCompute
+  insize=495 outsize=494 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=494 outsize=441 ok=1
+Cmd: preprocessCompute
+  insize=497 outsize=496 ok=1
+Cmd: preprocessCompute
+  insize=514 outsize=513 ok=1
+Cmd: preprocessCompute
+  insize=522 outsize=521 ok=1
+Cmd: preprocessCompute
+  insize=523 outsize=522 ok=1
+Cmd: preprocessCompute
+  insize=522 outsize=521 ok=1
+Cmd: preprocessCompute
+  insize=522 outsize=521 ok=1
+Cmd: preprocessCompute
+  insize=371 outsize=370 ok=1
+Cmd: preprocessCompute
+  insize=382 outsize=381 ok=1

@@ -1,0 +1,18 @@
+Base path: C:/Program Files/Unity/Editor/Data
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=4 insize=408 outsize=341 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=427 outsize=381 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  error: 2 plat 4 at colonyShader.compute(20): syntax error: unexpected float constant
+  api=4 insize=493 outsize=0 ok=0
+Cmd: compileComputeKernel
+  api=4 insize=513 outsize=521 ok=1
+Cmd: compileComputeKernel
+  error: 2 plat 4 at colonyShader.compute(6): syntax error: unexpected token '['
+  api=4 insize=381 outsize=0 ok=0
