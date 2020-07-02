@@ -2,19 +2,22 @@
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Colony : MonoBehaviour
 {
-    private List<Cell> population = new List<Cell>();
+    public List<Cell> population = new List<Cell>();
 
     public int foodSpawnAmount = 30;
     public int initialSpawnAmount = 250;
 
     public Material basicCellMaterial;
+
+    //debug compute shader output
+    public Material computeShaderOutputMaterial;
+    public ComputeShader computeShader;
 
     public struct Directional
     {
@@ -23,102 +26,140 @@ public class Colony : MonoBehaviour
     }
     
 
-    IEnumerator FrameManager(int parallelThreadCount)
+    IEnumerator FrameManager()
     {
         PlaceBasicCell();
 
-        List<Thread> parallelThreads = new List<Thread>();
-
-        int lastThreadLength = population.Count % parallelThreadCount;
-        if (lastThreadLength > 0) parallelThreadCount++;
+        int simulationFrames = 2000;
 
         while (true)
         {
             FoodPlacement(); //add new food
 
-            for (int i = 0; i < parallelThreadCount; i++)
-            {
-                //Thread newThread = new Thread(Frame(i, parallelThreadCount));
-                //parallelThreads.Add();
-            }
-
-            yield return new WaitForSeconds(10f);
-
-            StopCoroutine("Frame");
+            StartCoroutine(Frame());
 
             RemoveEatenFood();
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
 
         }
     }
 
-    void Frame(int threadIndex, int parallelThreads)
+    Vector4[] GenerateComputedDistances(int bufferSize)
     {
-        Cell thisCell;
-        Vector3 thisPos;
-        float viewDist;
-
-        Cell thatCell;
-        Vector3 thatPos;
-        Vector3 theDifference;
-
-        List<Directional> directionals = new List<Directional>();
-
-        int lastThreadLength;
-        int iterationsPerThread;
-
-        int startIndex;
-        int endIndex;
-
-        while (true)
+        //create the buffers
+        //fill position buffers
+        Vector4[] positionsArray = new Vector4[bufferSize];
+        Vector4 newVector;
+        for (int i = 0; i < bufferSize; ++i) 
         {
-            lastThreadLength = population.Count % parallelThreads;
-            iterationsPerThread = (population.Count - lastThreadLength) / parallelThreads;
-
-            if (lastThreadLength > 0) parallelThreads++;
-
-            startIndex = threadIndex * iterationsPerThread;
-            endIndex = (threadIndex + 1) * iterationsPerThread;
-
-            if (endIndex > population.Count) endIndex = population.Count;
-
-            //i * j so every element can interact with every element
-            for (int i = startIndex; i < endIndex; i++)
+            if (i < population.Count) 
             {
-                thisCell = population[i];
+                //valid cell operations
+                newVector = population[i].transform.position;
+                newVector.w = 0f;
 
-                if (thisCell is Food) continue; //Food doesn't need to think
-                else Thread.Sleep(1);
+                if (population[i] is BasicGuy) newVector.w = 1f;
+                if (population[i] is SpecialGuy) newVector.w = 2f;
 
-                thisPos = thisCell.transform.position;
-                viewDist = thisCell.viewDistance;
-
-                directionals.Clear();
-                Directional directionalHolder;
-
-                //thisCell looks at every other cell
-                for (int j = 0; j < population.Count; j++)
-                {
-                    if (i == j) continue; //shouldn't check itself
-                    if (!population[j].gameObject.activeSelf) continue;
-
-                    thatCell = population[j];
-                    thatPos = thatCell.transform.position;
-
-                    theDifference = thatPos - thisPos;
-
-                    if (Vector3.Magnitude(theDifference) > viewDist) continue;
-
-                    directionalHolder.directional = theDifference;
-                    directionalHolder.cellInformation = thatCell;
-
-                    directionals.Add(directionalHolder);
-                }
-
-                if (thisCell is BasicGuy) ((BasicGuy) thisCell).Think(directionals);
-                if (thisCell is SpecialGuy) ((SpecialGuy) thisCell).Think(directionals);
+                //positions. = population[i].transform.position;
+                positionsArray[i] = newVector;
             }
+            else 
+            {
+                //empty space to make the buffer fit evenly
+                newVector = Vector4.zero;
+                newVector.w = -1f;
+                positionsArray[i] = newVector;
+            }
+        }
+
+        int float4Stride = System.Runtime.InteropServices.Marshal.SizeOf(typeof(Vector4));
+
+        ComputeBuffer positionsBuffer = new ComputeBuffer(bufferSize, float4Stride, ComputeBufferType.Default);
+        positionsBuffer.SetData(positionsArray); //fill the buffer with data from the array
+
+        //Create output directional buffer
+        ComputeBuffer directionalsBuffer = new ComputeBuffer(bufferSize, float4Stride, ComputeBufferType.Default);
+
+        //attach buffers to compuet shader
+        int kernelIndex = computeShader.FindKernel("CSMain");
+
+        computeShader.SetBuffer(kernelIndex, "Positions", positionsBuffer);
+
+        
+
+        computeShader.SetInt("resolution", bufferSize);
+
+        //debug render texture output
+        /*
+        RenderTexture renderTetxure;
+
+        renderTetxure = new RenderTexture(bufferSize, bufferSize, 1);
+        renderTetxure.enableRandomWrite = true;
+        renderTetxure.useMipMap = false;
+        renderTetxure.Create();
+
+        computeShaderOutputMaterial.SetTexture("_MainTex", renderTetxure);
+
+        computeShader.SetTexture(kernelIndex,"ResultTexture",renderTetxure);
+
+        */
+        //run the compute shader
+
+        computeShader.Dispatch(kernelIndex, 16, 16, 1);
+
+        computeShader.SetBuffer(kernelIndex, "Result", directionalsBuffer);
+
+
+        //get the processed data
+
+
+        Vector4[] finalDirectionals = new Vector4[bufferSize*bufferSize];
+        //directionalsBuffer.GetData(finalDirectionals);
+        
+
+        return finalDirectionals;
+    }
+
+    IEnumerator Frame()
+    {
+        //first determine the size of the buffer, have it be a least square
+        int bufferSize = 2;
+        while (Mathf.Pow(bufferSize, 2) < population.Count) bufferSize++;
+        bufferSize = (int)Mathf.Pow(bufferSize, 2);
+
+        Vector4[] generatedDistances = GenerateComputedDistances(bufferSize);
+
+        List<Directional> currentView = new List<Directional>();
+
+        for (int i = 0; i < population.Count; i++)
+        {
+            if (generatedDistances[i].w == -1f) continue; //food doesn't think, see shader code for magic number
+            else yield return new WaitForEndOfFrame();
+
+            //Debug.Log(generatedDistances[i]);
+
+            currentView.Clear();
+
+            for (int j = 0; j < population.Count; j++)
+            {
+                if (i == j) continue;
+                Vector4 directionToAdjacentCell = generatedDistances[i + j*bufferSize];
+
+                Directional currDirectional = new Directional();
+                currDirectional.cellInformation = population[j];
+                currDirectional.directional = directionToAdjacentCell;
+
+                currentView.Add(currDirectional);
+            }
+
+            Cell currentCell = population[i];
+
+            //Debug.Log(generatedDistances[i]);
+            if (currentCell is BasicGuy) ((BasicGuy)currentCell).Think(currentView);
+            if (currentCell is SpecialGuy) ((SpecialGuy)currentCell).Think(currentView);
+
         }
     }
 
@@ -223,7 +264,7 @@ public class Colony : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FrameManager(50));
+        StartCoroutine(FrameManager());
     }
 
 }

@@ -1,31 +1,28 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: initializeCompiler
 Cmd: compileComputeKernel
-  api=4 insize=394 outsize=301 ok=1
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
+  error: 2 plat 4 at colonyShader.compute(25): undeclared identifier 'yPos'
+  api=4 insize=1168 outsize=0 ok=0
 Cmd: compileComputeKernel
-  api=4 insize=399 outsize=341 ok=1
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
+  error: 2 plat 4 at colonyShader.compute(29): undeclared identifier 'magnitude'
+  api=4 insize=1260 outsize=0 ok=0
 Cmd: compileComputeKernel
-  api=4 insize=403 outsize=341 ok=1
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
+  error: 2 plat 4 at colonyShader.compute(30): incorrect number of arguments to numeric-type constructor
+  api=4 insize=1265 outsize=0 ok=0
 Cmd: compileComputeKernel
-  error: 2 plat 4 at colonyShader.compute(9): the product of the arguments of numthreads(64,64,1) must be less than or equal to 1024
-  api=4 insize=402 outsize=0 ok=0
+  error: 1 plat 4 at colonyShader.compute(16): integer divides may be much slower, try using uints if possible.
+  api=4 insize=1269 outsize=1289 ok=1
 Cmd: initializeCompiler
-Cmd: compileComputeKernel
-  error: 2 plat 4 at colonyShader.compute(6): syntax error: unexpected token '['
-  api=4 insize=370 outsize=0 ok=0
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler

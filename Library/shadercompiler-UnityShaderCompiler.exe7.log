@@ -1,6 +1,14 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: initializeCompiler
 Cmd: compileComputeKernel
-  api=4 insize=401 outsize=361 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=496 outsize=441 ok=1
+  error: 1 plat 4 at colonyShader.compute(15): integer divides may be much slower, try using uints if possible.
+  api=4 insize=825 outsize=997 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Unhandled exception: Protocol error - unexpected end of data (did the Editor crash?)
+
+Quitting shader compiler process

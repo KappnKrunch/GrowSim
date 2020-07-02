@@ -1,32 +1,22 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: initializeCompiler
 Cmd: compileComputeKernel
-  api=4 insize=387 outsize=333 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=389 outsize=301 ok=1
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
-Cmd: initializeCompiler
+  error: 1 plat 4 at colonyShader.compute(16): integer divides may be much slower, try using uints if possible.
+  api=4 insize=1170 outsize=1289 ok=1
 Cmd: initializeCompiler
 Cmd: compileComputeKernel
-  api=4 insize=401 outsize=341 ok=1
+  error: 2 plat 4 at colonyShader.compute(30): cannot implicitly convert from 'float3' to 'float4'
+  api=4 insize=1257 outsize=0 ok=0
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler
-Cmd: compileComputeKernel
-  api=4 insize=407 outsize=381 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=431 outsize=381 ok=1
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler
 Cmd: initializeCompiler

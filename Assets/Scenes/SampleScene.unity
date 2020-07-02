@@ -207,9 +207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035ce284f650232449b46695df816668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodSpawnAmount: 300
+  population: []
+  foodSpawnAmount: 10
   initialSpawnAmount: 250
   basicCellMaterial: {fileID: 2100000, guid: dffcc0541ddb870468eddd48ff44170d, type: 2}
+  computeShaderOutputMaterial: {fileID: 2100000, guid: 15a40b3484d4a2c4f8ed1eae7e893759,
+    type: 2}
+  computeShader: {fileID: 7200000, guid: ce618d6d2fc6a4140a47b93850f6e81c, type: 3}
 --- !u!1 &2101423569
 GameObject:
   m_ObjectHideFlags: 0

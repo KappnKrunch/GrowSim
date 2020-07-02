@@ -3,14 +3,48 @@
 
 // Create a RenderTexture with enableRandomWrite flag and set it
 // with cs.SetTexture
-float4[] Positions;
-RWTexture2D<float4> Result;
+RWBuffer<float4> Positions;
+RWTexture2D<float4> ResultTexture;
+RWStructuredBuffer<float4> Result;
+int resolution;
 
-[numthreads(32,32,1)]
+[numthreads(16,16,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
     // TODO: insert actual code here
 
-	Result[id.xy]
-    
+    int resolutionResize = max(1,resolution/16 );
+    int xOffset = 0;
+    int yOffset = 0;
+
+    for(int i = 0; i < resolutionResize*resolutionResize; i++)
+    {   
+        uint2 index2D = id.xy * resolutionResize + uint2(xOffset, yOffset);
+        int intIndex = index2D.x + (index2D.y * resolution);
+
+        float4 xPos = Positions[index2D.x];
+        float4 yPos = Positions[index2D.y];
+
+        float4 directional;
+
+        if(xPos.w == 0.0)
+        {
+            directional = float4(0.0,0.0,0.0,-1.0);
+        }
+        else
+        {
+            float3 directionalXYZ = (yPos - xPos).xyz;
+            float distance = length( directionalXYZ );
+            directional = float4(1.0,1.0,1.0,1.0);
+        }       
+        
+        Result[intIndex] = directional;
+        
+        xOffset++;
+        if(xOffset >= resolutionResize)
+        {
+            xOffset = 0;
+            yOffset++;
+        }
+    }    
 }
